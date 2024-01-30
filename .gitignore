@@ -1,0 +1,14 @@
+# Ignorer les fichiers de log
+*.log
+
+# Ignorer le répertoire build
+/build/
+
+# Ignorer les fichiers temporaires
+*.tmp
+
+# Ignorer les .vscode
+/.vscode
+
+projet_e4.code-workspace
+
