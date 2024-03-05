@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-
 typedef struct{
     float** elem;
     int m; 
