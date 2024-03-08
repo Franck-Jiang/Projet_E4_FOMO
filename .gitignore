@@ -1,6 +1,9 @@
 # Ignorer les fichiers de log
 *.log
 
+# Ignorer les fichiers .exe
+*.exe
+
 # Ignorer le répertoire build
 /build/
 

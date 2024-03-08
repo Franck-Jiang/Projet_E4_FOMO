@@ -53,29 +53,31 @@ void printData(Array arr){
     printf("\n");
 }
 
-//TODO 
 float getValue(Array arr, int* position){
-    printf("adr3 %p ", position);
-    printf("size:%d ", sizeof(position)/sizeof(position[0]));
-    size_t len = sizeof(position)/sizeof(position[0]);
+
+    int len = arr.ndim;
     int position_array = 0;
     int a = 1;
 
-    // for (int i = 0; i < len; i++){
-    //     position_array += position[i]*a;
-    //     a *= arr.shape[i];
-    // }
-    printf("(pos:%d)", position_array);
+    for (int i = len - 1; i >= 0; i--){
+        position_array += position[i]*a;
+        a *= arr.shape[i];
+    }
+    // printf("(pos:%d)", position_array);
     return arr.data[position_array];
 }
 
-//TODO 
 void setValue(Array arr, int* position, float value){
-    int len = sizeof(position)/sizeof(int);
+    int len = arr.ndim;
     int position_array = 0;
-    for (int i = 0; i < len; i++){
+    int a = 1;
 
+    for (int i = len - 1; i >= 0; i--){
+        position_array += position[i]*a;
+        a *= arr.shape[i];
     }
+    // printf("(pos:%d)", position_array);
+    arr.data[position_array] = value;
 }
 
 
@@ -83,19 +85,19 @@ int main(void){
     int shape[] = {2,3,2};
     Array a = initArray(shape, 3);
     fillArray(a, 0);
-    printData(a);
-    freeArray(a);
-    // int position[7] = {0,0,1};
-
+    // printData(a);
+    int pos[3] = {1,2,0};
+    setValue(a, pos, 999);
     for (int i = 0; i < 2; i++){
         for (int j = 0; j < 3; j++){
             for (int k = 0; k < 2; k++){
-                int pos[6] = {i,j,k,i,j,k};
-                printf("adr1 %p ", pos);
-                printf("size:%d ", sizeof(pos)/sizeof(pos[0]));
+                int pos[3] = {i,j,k};
                 printf("data[%d][%d][%d] = %.2f\n",i, j, k, getValue(a, pos));
             }
         }
     }
+
+    freeArray(a);
+    printData(a);
 }
 
