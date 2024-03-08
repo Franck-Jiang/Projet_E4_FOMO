@@ -58,7 +58,7 @@ Array initArray(int* shape, int ndim) {
         printf("Ndim incorrecte (valeurs possible : 2-4)\n");
         return arr; 
     }
-    printf("init ok \n");
+    // printf("init ok \n");
     return arr;
 }
 
@@ -99,7 +99,7 @@ void fillArray(Array arr, float filler){
             }
         }
     }
-    printf("fill OK\n");
+    // printf("fill OK\n");
 }
 
 void printData(Array arr){
@@ -136,14 +136,14 @@ void printData(Array arr){
 
 
 
-int main(void){
-    int shape[] = {2,3,2};
-    Array a = initArray(shape, 3);
-    fillArray(a, 10);
-    printData(a);
-    // printf("data : %d", a.data.data3D[1][0][1]);
+// int main(void){
+//     int shape[] = {2,3,2};
+//     Array a = initArray(shape, 3);
+//     fillArray(a, 10);
+//     printData(a);
+//     // printf("data : %d", a.data.data3D[1][0][1]);
 
-    freeArray(a);
-    printData(a);
-}
+//     freeArray(a);
+//     printData(a);
+// }
 
