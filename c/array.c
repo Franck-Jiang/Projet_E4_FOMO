@@ -5,7 +5,7 @@ typedef struct {
     int* shape;        // Tableau des dimensions
     int ndim;          // Nombre de dimensions
     int totalsize;
-    float* data;        // Pointeur vers les données
+    double* data;        // Pointeur vers les données
 } Array;
 
 Array initArray(int* shape, int ndim) {
@@ -21,7 +21,7 @@ Array initArray(int* shape, int ndim) {
         totalSize *= shape[i];
     }
     arr.totalsize = totalSize;
-    arr.data = (float*) malloc(totalSize * sizeof(float));
+    arr.data = (double*) malloc(totalSize * sizeof(double));
     return arr;
 }
 
@@ -45,7 +45,7 @@ void printData(Array arr){
 }
 
 
-void fillArray(Array arr, float filler){
+void fillArray(Array arr, double filler){
     for (int i = 0; i < arr.totalsize; i++){
         arr.data[i] = filler + i;
     }

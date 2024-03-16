@@ -9,6 +9,6 @@ Array initArray(int* shape, int ndim);
 
 void printData(Array arr);
 
-void fillArray(Array arr, float filler);
+void fillArray(Array arr, double filler);
 
 #endif  // ARRAY_H
