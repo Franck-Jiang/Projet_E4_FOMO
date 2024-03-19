@@ -5,10 +5,8 @@
 struct Array;
 
 // Initialiser un tableau
-Array initArray(int* shape, int ndim);
+void fillArray( double* arr, int* shape, int dim, double filler);
+void printArray( double* arr, int* shape, int dim );
 
-void printData(Array arr);
-
-void fillArray(Array arr, double filler);
 
 #endif  // ARRAY_H

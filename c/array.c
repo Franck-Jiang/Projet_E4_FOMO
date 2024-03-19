@@ -1,54 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct {
-    int* shape;        // Tableau des dimensions
-    int ndim;          // Nombre de dimensions
-    int totalsize;
-    double* data;        // Pointeur vers les données
-} Array;
-
-Array initArray(int* shape, int ndim) {
-    Array arr;
-    arr.shape = malloc(ndim * sizeof(int));
-    for (int i = 0; i < ndim; i++) {
-        arr.shape[i] = shape[i];
-    }    
-    arr.ndim = ndim;
-    
-    int totalSize = 1;
-    for (int i = 0; i < ndim; i++) {
-        totalSize *= shape[i];
+void fillArray( double* arr, int* shape, int dim, double filler){
+    int totalsize = 1;
+    for( int dim_i = 0; dim_i < dim; dim_i++ ){
+        totalsize *= shape[dim_i];
     }
-    arr.totalsize = totalSize;
-    arr.data = (double*) malloc(totalSize * sizeof(double));
-    return arr;
+
+    for ( int i = 0; i < totalsize; i++) {
+        arr[i] = filler + i;
+    }
 }
 
-void printData(Array arr){
-    if (arr.ndim == 2){
-        for (int i = 0; i < arr.shape[0]; i++){
-            for (int j = 0; j < arr.shape[1]; j++){
-                printf("%.2f\t", arr.data[i* arr.shape[0] + j]);
+void printArray( double* arr, int* shape, int dim ){
+    if (dim == 2){
+        for (int i = 0; i < shape[0]; i++){
+            for (int j = 0; j < shape[1]; j++){
+                printf("%.2f\t", arr[i* shape[0] + j]);
             }
             printf("\n");
         }
     }
     else{
+        int totalsize = 1;
+        for( int dim_i = 0; dim_i < dim; dim_i++ ){
+        totalsize *= shape[dim_i];
+        }
         printf("Data:\n");
-        for (int i = 0; i < arr.totalsize; i++) {
-            printf("%.2f ", arr.data[i]);
+        for (int i = 0; i < totalsize; i++) {
+            printf("%.2f ", arr[i]);
         }
         printf("\n");
     }
 
 }
 
-
-void fillArray(Array arr, double filler){
-    for (int i = 0; i < arr.totalsize; i++){
-        arr.data[i] = filler + i;
-    }
-}
 
 
