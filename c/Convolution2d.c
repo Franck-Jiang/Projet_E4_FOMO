@@ -15,7 +15,7 @@ int* getResShape(   int* input_shape, int input_dim,
     int* resultat = (int*) malloc(3 * sizeof(int)); 
     if (input_dim != 2 || filtre_dim != 2) {
         printf("Convolution erreur dim\n");
-        return malloc(1);
+        return malloc(0);
     }
     else {
         resultat[2] = 2;
