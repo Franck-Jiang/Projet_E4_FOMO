@@ -2,41 +2,44 @@
 #include <math.h>
 #include "array.h"
 
-void softmax(Array input) {
-    double max = input.data[0];
-    for (int i = 1; i < input.totalsize; i++) {
-        if (input.data[i] > max) {
-            max = input.data[i];
+void softmax(double* input, int* input_shape, int input_dim) {
+    int totalsize = 1;
+    for (int i = 0; i < input_dim; i++){
+        totalsize *= input_shape[i];
+    }
+
+    double max = input[0];
+    for (int i = 1; i < totalsize; i++) {
+        if (input[i] > max) {
+            max = input[i];
         }
     }
 
     double sum = 0.0;
-    for (int i = 0; i < input.totalsize; i++) {
-        input.data[i] = exp(input.data[i] - max);
-        sum += input.data[i];
+    for (int i = 0; i < totalsize; i++) {
+        input[i] = exp(input[i] - max);
+        sum += input[i];
     }
 
-    for (int i = 0; i < input.totalsize; i++) {
-        input.data[i] /= sum;
+    for (int i = 0; i < totalsize; i++) {
+        input[i] /= sum;
     }
 }
 
 int main() {
     int dim[1] = {3};
-    Array input = initArray(dim, 1);
-    fillArray(input, 0);
+    double* input = (double*) malloc(dim[0]*sizeof(double));
+    fillArray(input, dim, 1, 1);
+
 
     printf("Input: ");
-    for (int i = 0; i < input.totalsize; i++) {
-        printf("%f ", input.data[i]);
-    }
+    printArray(input, dim, 1);
+
     printf("\n");
-    softmax(input);
+    softmax(input, dim, 1);
 
     printf("Softmax output: ");
-    for (int i = 0; i < input.totalsize; i++) {
-        printf("%f ", input.data[i]);
-    }
+    printArray(input, dim, 1);
     printf("\n");
 
     return 0;
