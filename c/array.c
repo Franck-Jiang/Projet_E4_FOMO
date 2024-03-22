@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+double* initArray(int* shape, int dim){
+    int totalsize = 1;
+    for (int i = 0; i < dim; i++){
+        totalsize *= shape[i];
+    }
+    return (double*) malloc(totalsize * sizeof(double));
+}
+
 void fillArray( double* arr, int* shape, int dim, double filler){
     int totalsize = 1;
     for( int dim_i = 0; dim_i < dim; dim_i++ ){
@@ -27,7 +35,6 @@ void printArray( double* arr, int* shape, int dim ){
         for( int dim_i = 0; dim_i < dim; dim_i++ ){
         totalsize *= shape[dim_i];
         }
-        printf("Data:\n");
         for (int i = 0; i < totalsize; i++) {
             printf("%.2f ", arr[i]);
         }
