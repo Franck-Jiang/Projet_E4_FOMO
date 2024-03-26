@@ -30,6 +30,7 @@ int* getResShape(   int* input_shape, int input_dim,
 
 void convolution2d( double* input, int* input_shape, int input_dim, 
                     double* filtre, int* filtre_shape, int filtre_dim, 
+                    int stride_h, int stride_w,
                     double** resultat, int** resultat_shape, int* resultat_dim ) {
 
     if (input_dim != 2 || filtre_dim != 2) {
@@ -38,22 +39,25 @@ void convolution2d( double* input, int* input_shape, int input_dim,
     else {
         *resultat_dim = input_dim;
         *resultat_shape = (int*) malloc( (*resultat_dim) * sizeof(int) );
-        (*resultat_shape)[0] = input_shape[0] - ceil( filtre_shape[0]/2.0 );
-        (*resultat_shape)[1] = input_shape[1] - ceil( filtre_shape[1]/2.0 );
+        
+        // Calcul de la taille de la sortie en fonction du stride
+        (*resultat_shape)[0] = (input_shape[0] - filtre_shape[0]) / stride_h + 1;
+        (*resultat_shape)[1] = (input_shape[1] - filtre_shape[1]) / stride_w + 1;
         *resultat = initArray(*resultat_shape, *resultat_dim);
 
         printf("Dimensions: %d, %d\n", (*resultat_shape)[0], (*resultat_shape)[1]);
-        // printf("OK\n");
         for (int i = 0; i < (*resultat_shape)[0]; i++) {
             for (int j = 0; j < (*resultat_shape)[1]; j++) {
                 (*resultat)[i*(*resultat_shape)[0] + j] = 0;
-                // printf("i=%d < %d, j=%d < %d\n", i, resultat.m, j, resultat.n);
                 for (int k = 0; k < filtre_shape[0]; k++) {
                     for (int l = 0; l < filtre_shape[1]; l++) {
-                        // printf("i=%d, j=%d, k=%d, l=%d\n",i,j,k,l);
-                        if (i + k < input_shape[1] && j + l < input_shape[1]){
-                            (*resultat)[i * (*resultat_shape)[1] + j] += input[(i + k) * input_shape[1] + j + l] * filtre[k * filtre_shape[1] + l];
-                            // printf("%.2f\n", resultat[i * resultat_shape[1] + j]);
+                        int input_row = i * stride_h + k;
+                        int input_col = j * stride_w + l;
+                        
+                        if (input_row >= 0 && input_row < input_shape[0] && 
+                            input_col >= 0 && input_col < input_shape[1]) {
+                            
+                            (*resultat)[i * (*resultat_shape)[1] + j] += input[input_row * input_shape[1] + input_col] * filtre[k * filtre_shape[1] + l];
                         }
                     }
                 }
@@ -82,7 +86,7 @@ int main(void){
     // printArray(filtre1, shape_filtre1, dim_filtre1);
 
     convolution2d(  mat1, shape_mat1, dim_mat1,
-                    filtre1, shape_filtre1, dim_filtre1,
+                    filtre1, shape_filtre1, dim_filtre1, 1,
                     &resultat, &shape_resultat, &dim_resultat);
 
     printf("\nmat1\n");
