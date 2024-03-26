@@ -86,7 +86,8 @@ int main(void){
     // printArray(filtre1, shape_filtre1, dim_filtre1);
 
     convolution2d(  mat1, shape_mat1, dim_mat1,
-                    filtre1, shape_filtre1, dim_filtre1, 1,
+                    filtre1, shape_filtre1, dim_filtre1, 
+                    1, 1,
                     &resultat, &shape_resultat, &dim_resultat);
 
     printf("\nmat1\n");
