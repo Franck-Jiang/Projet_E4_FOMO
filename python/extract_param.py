@@ -13,9 +13,10 @@ def create_txt(file: str):
     """"
     PLACEHOLDER
     """
+    shapes = [(1, 10), (2, 5), (5, 2), (10, 1)]
     with open(file, "w") as f:
         for i in range (5):
-            text = txt(i, np.array([ [1.258*i ,2.159+i ,3+2*i ,4.144 ,5.999],[3.14 ,444 ,853/(i+1) ,3.9*i**2 ,5.5]]), (2,5), file) + "\n"
+            text = txt(i, np.array([ [0 ,1.111*i , 2*i , i , -2*i],[3.14 , -1/(i+1) ,1/(i+1) ,2*i**2 ,2*(10-i)]]), shapes[i%4], file) + "\n"
             f.write(text)
             
             
