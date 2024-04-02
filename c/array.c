@@ -9,6 +9,17 @@ double* initArray(int* shape, int dim){
     return (double*) malloc(totalsize * sizeof(double));
 }
 
+void setArray( double** arr, int* shape, int dim, double* data){
+    int totalsize = 1;
+    for (int dim_i = 0; dim_i < dim; dim_i++){
+        totalsize *= shape[dim_i];
+    }
+
+    for (int i = 0; i < totalsize; i++ ){
+        (*arr)[i] = data[i];
+    }
+}
+
 void fillArray( double* arr, int* shape, int dim, double filler){
     int totalsize = 1;
     for( int dim_i = 0; dim_i < dim; dim_i++ ){
@@ -42,6 +53,7 @@ void printArray( double* arr, int* shape, int dim ){
     }
 
 }
+
 
 
 
