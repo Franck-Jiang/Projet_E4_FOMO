@@ -1,27 +1,26 @@
-import json
 import numpy as np
+import tensorflow as tf
 
-def txt(name, input_data : np.ndarray, input_shape : list, file: str):
+
+
+def txt(name, input_data : np.ndarray, input_shape : list):
     flat = ",".join(list(input_data.flatten().astype(str)))  
     flat_shape = ",".join(list(np.array(input_shape).flatten().astype(str)))  
     res = ";".join([str(name), flat, flat_shape, str(len(input_shape))])
-    print(res)
     return res
-        
-
+                
 def create_txt(file: str):
-    """"
-    PLACEHOLDER
-    """
-    shapes = [(1, 10), (2, 5), (5, 2), (10, 1)]
+    tensor_details = interpreter.get_tensor_details()
     with open(file, "w") as f:
-        for i in range (5):
-            text = txt(i, np.array([ [0 ,1.111*i , 2*i , i , -2*i],[3.14 , -1/(i+1) ,1/(i+1) ,2*i**2 ,2*(10-i)]]), shapes[i%4], file) + "\n"
+        for tensor_i in range( len(tensor_details) ):
+            tensor = tensor_details[tensor_i]['quantization_parameters']["scales"]
+            text = txt(tensor_details[tensor_i]['name'].replace(";", "-"), 
+                       tensor, 
+                       tensor.shape) + "\n"
             f.write(text)
-            
-            
-if __name__ == "__main__":
-    test_input = np.array([ [1.258 ,2.159 ,3.222 ,4.144 ,5.999],
-                        [3.14 ,444 ,853.1 ,3.9 ,5.5]])
 
-    create_txt("../c/test.txt")
+if __name__ == "__main__":
+    interpreter = tf.lite.Interpreter(model_path="Model Interpreter/ei-beer-vs.-cans-fomo-object-detection-tensorflow-lite-int8-quantized-model.lite")
+    interpreter.allocate_tensors()
+
+    create_txt("../c/fomo_parameters.txt")

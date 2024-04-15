@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "array.h"
 
-#define MAX_LINE_LENGTH 1000
+#define MAX_LINE_LENGTH 10000
 
 double* readDoubleList(char* string){
     int num_commas = 0;
@@ -19,7 +18,6 @@ double* readDoubleList(char* string){
 
     double* array = (double*) malloc(size * sizeof(double));
 
-    // Analyser la chaîne pour extraire les dimensions
     char* token = strtok((char*) string, ",");
     int i = 0;
     while (token != NULL) {
@@ -46,7 +44,6 @@ int* readIntList(char* string){
 
     int* array = (int*) malloc(size * sizeof(int));
 
-    // Analyser la chaîne pour extraire les dimensions
     char* token = strtok((char*) string, ",");
     int i = 0;
     while (token != NULL) {
@@ -70,7 +67,6 @@ void readArray(char* string, double** array, int** array_shape, int* array_dim){
     // int* shape;
     int dim;
 
-    // Utilisation de sscanf pour extraire les différentes parties de la ligne
     if (sscanf(string, "%[^;];%[^;];%[^;];%d", name, data, shape, &dim) == 4) {
         printf("Name = %s\n", name);
         printf("Data = %s\n", data);
@@ -94,16 +90,13 @@ int main() {
     FILE *file;
     char line[MAX_LINE_LENGTH];
 
-    // Ouvrir le fichier en mode lecture
-    file = fopen("test.txt", "r");
+    file = fopen("fomo_parameters.txt", "r");
     if (file == NULL) {
         fprintf(stderr, "Impossible d'ouvrir le fichier.\n");
         exit(EXIT_FAILURE);
     }
 
-    // Lire chaque ligne du fichier
     while (fgets(line, MAX_LINE_LENGTH, file) != NULL) {
-        // Traitement de chaque ligne ici
         printf("%s", line);
 
         int* shape;
@@ -111,11 +104,9 @@ int main() {
         double* array;
 
         readArray(line, &array, &shape, &dim);
-        printArray(array, shape, dim);
+        // printArray(array, shape, dim);
         printf("\n");
     }
-
-    // Fermer le fichier
     fclose(file);
     return 0;
 }
