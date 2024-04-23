@@ -3,10 +3,10 @@
 #include <stdint.h> 
 #include "array.h" 
 
-void quantization(double* input, uint8_t* output, int size, double factor) {
+void quantization(double* input, uint8_t* output, int size, double factor, double bias) {
     for (int i = 0; i < size; i++) {
-        double value = factor * (input[i] + 128);
-        output[i] = (uint8_t)(value );
+        double value = factor * (input[i] + bias);
+        output[i] = (uint8_t)(value);
     }
 }
 
@@ -18,9 +18,9 @@ int main() {
     printf("Input: ");
     printArray(input, dim, 1);
 
-    // Appel de la fonction quantization avec le facteur spécifié
+    // Appel de la fonction quantization avec les paramètres spécifiés
     uint8_t* output = malloc(3 * sizeof(uint8_t)); 
-    quantization(input, output, 3, 0.00390625); 
+    quantization(input, output, 3, 0.00390625, 128); 
 
     printf("Output after quantization: ");
     for (int i = 0; i < 3; i++) {
