@@ -5,7 +5,8 @@
 
 void quantization(double* input, uint8_t* output, int size, double factor) {
     for (int i = 0; i < size; i++) {
-        double value = factor * (input[i] + 128); 
+        double value = factor * (input[i] + 128);
+        output[i] = (uint8_t)(value );
     }
 }
 
@@ -30,3 +31,4 @@ int main() {
     free(output); // Libérer la mémoire allouée pour le tableau de sortie
 
     return 0;
+}
