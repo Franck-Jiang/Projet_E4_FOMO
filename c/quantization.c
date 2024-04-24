@@ -3,32 +3,40 @@
 #include <stdint.h> 
 #include "array.h" 
 
-void quantization(double* input, uint8_t* output, int size, double factor, double bias) {
-    for (int i = 0; i < size; i++) {
-        double value = factor * (input[i] + bias);
-        output[i] = (uint8_t)(value);
+
+void quantization(uint8_t* input, float* output, int* input_shape, int input_dim, float s, uint8_t off) {
+    int totalsize = 1;
+    for (int i = 0; i < input_dim; i++) {
+        totalsize = input_shape[i];
+    }
+
+    for (int i = 0; i < totalsize; i++) {
+        output[i] = s input[i] + off;
+
     }
 }
 
 int main() {
     int dim[1] = {3};
-    double* input = initArray(dim, 1);
-    fillArray(input, dim, 1, 1);
+    uint8_t* input = malloc(3 * sizeof(uint8_t)); // Allouer de la mémoire pour l'entrée
+    // Remplir l'entrée avec des valeurs initiales (par exemple, des valeurs de pixel)
+    fillArray(input, dim, 1, (uint8_t)1);
 
     printf("Input: ");
     printArray(input, dim, 1);
 
     // Appel de la fonction quantization avec les paramètres spécifiés
-    uint8_t* output = malloc(3 * sizeof(uint8_t)); 
-    quantization(input, output, 3, 0.00390625, 128); 
+    float* output = malloc(3 * sizeof(float)); // Allouer de la mémoire pour la sortie
+    quantization(input, output, dim, 1, 0.00390625, 128); 
 
     printf("Output after quantization: ");
     for (int i = 0; i < 3; i++) {
-        printf("%d ", output[i]);
+        printf("%f ", output[i]);
     }
     printf("\n");
 
-    free(output); // Libérer la mémoire allouée pour le tableau de sortie
+    free(input); // Libérer la mémoire allouée pour l'entrée
+    free(output); // Libérer la mémoire allouée pour la sortie
 
     return 0;
 }
